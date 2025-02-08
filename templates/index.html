@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Zsebügyvéd</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('/static/images/background.png') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+        }
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Üdvözlünk az AI-Zsebügyvéd rendszerben!</h1>
+        <p>Bejelentkezve mint: <strong>{{ name }}</strong></p>
+        <img src="{{ picture }}" alt="Profilkép">
+        <br><br>
+        <a href="/logout">Kijelentkezés</a>
+    </div>
+</body>
+</html>
