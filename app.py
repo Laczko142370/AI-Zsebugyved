@@ -40,16 +40,19 @@ flow = Flow.from_client_config(
 )
 flow.redirect_uri = "http://127.0.0.1:5000/auth/callback"
 
+# Alap home route
 @app.route("/")
 def home():
     return jsonify({"message": "AI-Zsebügyvéd MVP Fejlesztés Elindítva!"})
 
+# Login route
 @app.route("/login")
 def login():
     authorization_url, state = flow.authorization_url(prompt="consent")
     session["state"] = state
     return redirect(authorization_url)
 
+# Callback route
 @app.route("/auth/callback")
 def auth_callback():
     flow.fetch_token(authorization_response=request.url)
@@ -65,6 +68,11 @@ def auth_callback():
 
     return render_template("index.html", name=user_info["name"], picture=user_info["picture"])
 
+# Healthcheck route
+@app.route("/healthcheck")
+def healthcheck():
+    return jsonify({"status": "ok"})
+
+# Futtatás
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(debug=True, host="0.0.0.0", port=port)
+    app.run(debug=True)
