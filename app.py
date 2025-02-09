@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from google.auth.transport import requests
 import google.oauth2.id_token
 from google_auth_oauthlib.flow import Flow
+from waitress import serve  # Importáljuk a waitress-t
 
 # Engedélyezzük a HTTP használatát fejlesztői módban
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
@@ -73,7 +74,6 @@ def auth_callback():
 def healthcheck():
     return jsonify({"status": "ok"})
 
-# Futtatás
+# Futtatás waitress-tel
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(debug=False, host="0.0.0.0", port=port)  # Debug módot kikapcsoltuk a production környezethez
+    serve(app, host="0.0.0.0", port=5000)  # Waitress szerverrel futtatjuk az alkalmazást
