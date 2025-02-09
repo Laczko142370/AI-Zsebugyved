@@ -1,12 +1,10 @@
 import os
-import pathlib
 from flask import Flask, redirect, url_for, session, jsonify, request, render_template
 from flask_cors import CORS
 from dotenv import load_dotenv
 from google.auth.transport import requests
 import google.oauth2.id_token
 from google_auth_oauthlib.flow import Flow
-from waitress import serve  # Importáljuk a waitress-t
 
 # Engedélyezzük a HTTP használatát fejlesztői módban
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
@@ -41,6 +39,9 @@ flow = Flow.from_client_config(
 )
 flow.redirect_uri = os.getenv("REDIRECT_URI")  # Frissítve a .env-ben tárolt URI-ra
 
+# Debug mód engedélyezése, ha fejlesztésről van szó
+app.config['DEBUG'] = True
+
 # Alap home route
 @app.route("/")
 def home():
@@ -74,6 +75,6 @@ def auth_callback():
 def healthcheck():
     return jsonify({"status": "ok"})
 
-# Futtatás waitress-tel
+# Futtatás Flask beépített szerverével fejlesztéshez
 if __name__ == "__main__":
-    serve(app, host="0.0.0.0", port=5000)  # Waitress szerverrel futtatjuk az alkalmazást
+    app.run(debug=True, host="0.0.0.0", port=5000)  # Flask beépített szerverével futtatjuk az alkalmazást fejlesztés alatt
