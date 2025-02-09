@@ -27,7 +27,7 @@ flow = Flow.from_client_config(
         "web": {
             "client_id": GOOGLE_CLIENT_ID,
             "client_secret": GOOGLE_CLIENT_SECRET,
-            "redirect_uris": ["http://127.0.0.1:5000/auth/callback"],
+            "redirect_uris": [os.getenv("REDIRECT_URI")],  # Frissítve a .env-ben tárolt URI-ra
             "auth_uri": "https://accounts.google.com/o/oauth2/auth",
             "token_uri": "https://oauth2.googleapis.com/token"
         }
@@ -38,7 +38,7 @@ flow = Flow.from_client_config(
         "https://www.googleapis.com/auth/userinfo.profile"
     ]
 )
-flow.redirect_uri = "http://127.0.0.1:5000/auth/callback"
+flow.redirect_uri = os.getenv("REDIRECT_URI")  # Frissítve a .env-ben tárolt URI-ra
 
 # Alap home route
 @app.route("/")
@@ -76,4 +76,4 @@ def healthcheck():
 # Futtatás
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    app.run(debug=True, host="0.0.0.0", port=port)
+    app.run(debug=False, host="0.0.0.0", port=port)  # Debug módot kikapcsoltuk a production környezethez
